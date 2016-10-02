@@ -2,7 +2,7 @@ var transform = require('./');
 var expect = require('chai').expect;
 
 describe('transform()', function() {
-  it('transforms Markdown links', () => {
+  it('transforms Markdown links', function() {
     var input = 'There\'s a [link](page.md) or [two](page2.md) in this sentence.';
     var output = transform(input, function(link, text) {
       return link.replace('md', 'html');
