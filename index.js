@@ -1,7 +1,7 @@
 var format = require('util').format;
 
 // Thank you: http://stackoverflow.com/a/32382702 (with some modifications)
-var linkRegExp = /\[([^\]]+)\]\(([^\)]+)\)/g
+var linkRegExp = /\[([^\]]+)?\]\(([^\)]+)\)/g
 
 /**
  * Transform the links in a Markdown string using a transform function.
@@ -30,6 +30,9 @@ module.exports = function transformMarkdownLinks(input, transform) {
      * @param {String} text - Text of the link.
      * @returns {?String} Modified URL.
      */
+     if (match[1] === undefined) {
+       match[1] = "";
+     }
     var replacement = transform(match[2], match[1]);
 
     if (replacement) {
