@@ -16,4 +16,12 @@ describe('transform()', function() {
       expect(text).to.equal('text');
     });
   });
+
+  it('detect empty text links', function() {
+    var input = '![](/resources/picture.JPG) Here is a link with no text.'
+    var output = transform(input, function(link, text) {
+      return 'http://url.to/picture';
+    });
+    expect(output).to.equal('![](http://url.to/picture) Here is a link with no text.')
+  });
 });
