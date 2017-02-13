@@ -30,6 +30,9 @@ module.exports = function transformMarkdownLinks(input, transform) {
      * @param {String} text - Text of the link.
      * @returns {?String} Modified URL.
      */
+     if (match[1] === undefined) {
+       match[1] = "";
+     }
     var replacement = transform(match[2], match[1]);
 
     if (replacement) {
