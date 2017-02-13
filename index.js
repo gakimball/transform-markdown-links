@@ -1,7 +1,7 @@
 var format = require('util').format;
 
 // Thank you: http://stackoverflow.com/a/32382702 (with some modifications)
-var linkRegExp = /\[([^\]]+)\]\(([^\)]+)\)/g
+var linkRegExp = /\[([^\]]+)*\]\(([^\)]+)\)/g
 
 /**
  * Transform the links in a Markdown string using a transform function.
