@@ -4,7 +4,7 @@
   "description": "Transform the links in a Markdown file",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "xo && mocha"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,13 @@
   "homepage": "https://github.com/gakimball/transform-markdown-links#readme",
   "devDependencies": {
     "chai": "^3.5.0",
-    "mocha": "^3.1.0"
+    "mocha": "^3.1.0",
+    "xo": "^0.18.0"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "xo": {
+    "space": true
   }
 }

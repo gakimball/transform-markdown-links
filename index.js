@@ -1,8 +1,8 @@
-var format = require('util').format;
+'use strict';
 
 // Thank you: http://stackoverflow.com/a/32382702 (with some modifications)
-var linkRegExp = /\[([^\]]+)?\]\(([^\)]+)\)/g;
-var aliasLinkRegExp = /^\[(.*)\]:\s+(.*?)\s*(".*"|'.*'|\(.*\))?$/gm;
+const linkRegExp = /\[([^\]]+)?\]\(([^)]+)\)/g;
+const aliasLinkRegExp = /^\[(.*)\]:\s+(.*?)\s*(".*"|'.*'|\(.*\))?$/gm;
 
 /**
  * Transform the links in a Markdown string using a transform function.
@@ -16,17 +16,15 @@ var aliasLinkRegExp = /^\[(.*)\]:\s+(.*?)\s*(".*"|'.*'|\(.*\))?$/gm;
  * transformLinks(input, (link, text) => link + '?hooray');
  * // => 'This [link](page.md?hooray) will be transformed.'
  */
-module.exports = function transformMarkdownLinks(input, transform) {
-  var output = input;
-  var match;
+module.exports = (input, transform) => {
+  let output = input;
+  let match;
 
-  // match[0] is the entire link
-  // match[1] is the text, without the brackets
-  // match[2] is the URL, without the parentheses
+  // Transforming basic links
   while ((match = linkRegExp.exec(input)) !== null) {
-    if (match[1] === undefined) {
-      match[1] = "";
-    }
+    const string = match[0];
+    const text = match[1] || '';
+    const url = match[2];
 
     /**
      * Callback to transform a link within a Markdown string.
@@ -35,37 +33,32 @@ module.exports = function transformMarkdownLinks(input, transform) {
      * @param {String} text - Text of the link.
      * @returns {?String} Modified URL.
      */
-    var replacement = transform(match[2], match[1]);
+    const replacement = transform(url, text);
 
     if (replacement) {
-      output = output.replace(match[0], format('[%s](%s)', match[1], replacement));
+      output = output.replace(string, `[${text}](${replacement})`);
     }
   }
 
-  // match[0] is the entire link
-  // match[1] is the alias name
-  // match[2] is the URL
-  // match[3] is the title
+  // Transforming alias links
   while ((match = aliasLinkRegExp.exec(input)) !== null) {
-    var string = match[0];
-    var alias = match[1];
-    var url = match[2];
-    var title = match[3];
-    var urlBrackets = /^<.*>$/.test(url);
-    var innerUrl = urlBrackets
-      ? url.replace(/^</, '').replace(/>$/, '')
-      : url;
+    const string = match[0];
+    const alias = match[1];
+    const url = match[2];
+    const title = match[3];
+    const urlBrackets = /^<.*>$/.test(url);
+    const innerUrl = urlBrackets ? url.replace(/^</, '').replace(/>$/, '') : url;
 
-    var replacement = transform(innerUrl, alias);
+    let replacement = transform(innerUrl, alias);
     if (urlBrackets) {
-      replacement = '<' + replacement + '>';
+      replacement = `<${replacement}>`;
     }
 
     if (replacement) {
-      var titleText = title ? ' ' + title : '';
-      output = output.replace(string, format('[%s]: %s', alias, replacement + titleText));
+      const titleText = title ? ' ' + title : '';
+      output = output.replace(string, `[${alias}]: ${replacement + titleText}`);
     }
   }
 
   return output;
-}
+};
