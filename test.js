@@ -17,11 +17,35 @@ describe('transform()', function() {
     });
   });
 
-  it('detect empty text links', function() {
+  it('detects empty text links', function() {
     var input = '![](/resources/picture.JPG) Here is a link with no text.'
     var output = transform(input, function(link, text) {
       return 'http://url.to/picture';
     });
     expect(output).to.equal('![](http://url.to/picture) Here is a link with no text.')
+  });
+
+  it('matches link aliases', function() {
+    var input = '[This link][alias] is an alias.\n\n[alias]: http://example.com';
+    var output = transform(input, function(link, text) {
+      return 'http://example.org';
+    });
+    expect(output).to.equal('[This link][alias] is an alias.\n\n[alias]: http://example.org');
+  });
+
+  it('matches link aliases with a link enclosed in angle brackets', function() {
+    var input = '[This link][alias] is an alias.\n\n[alias]: <http://example.com>';
+    var output = transform(input, function(link, text) {
+      return 'http://example.org';
+    });
+    expect(output).to.equal('[This link][alias] is an alias.\n\n[alias]: <http://example.org>');
+  });
+
+  it('matches link aliases with a title', function() {
+    var input = '[This link][alias] is an alias.\n\n[alias]: http://example.com (title)';
+    var output = transform(input, function(link, text) {
+      return 'http://example.org';
+    });
+    expect(output).to.equal('[This link][alias] is an alias.\n\n[alias]: http://example.org (title)');
   });
 });
