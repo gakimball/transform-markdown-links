@@ -1,6 +1,7 @@
 # transform-markdown-links
 
-[![Travis](https://img.shields.io/travis/gakimball/transform-markdown-links.svg?maxAge=2592000)](https://travis-ci.org/gakimball/transform-markdown-links) [![npm](https://img.shields.io/npm/v/transform-markdown-links.svg?maxAge=2592000)](https://www.npmjs.com/package/transform-markdown-links)
+[![Tests](https://github.com/gakimball/transform-markdown-links/actions/workflows/test.yml/badge.svg)](https://github.com/gakimball/transform-markdown-links/actions/workflows/test.yml)
+[![npm](https://img.shields.io/npm/v/transform-markdown-links.svg?maxAge=2592000)](https://www.npmjs.com/package/transform-markdown-links)
 
 > Transform the links in a Markdown file
 
